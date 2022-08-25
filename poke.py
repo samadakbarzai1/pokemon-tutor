@@ -9,12 +9,12 @@ class Evo:
         else:
             print(f'code not find the url please try again {r.status_code}')
             return
-        r2 = requests.get(pokemon_types['evolution_chain']['url'])
-        if r2.status_code == 200:
-            evolving = r2.json()
+        response_2 = requests.get(pokemon_types['evolution_chain']['url'])
+        if response_2.status_code == 200:
+            evolving = response_2.json()
             evolving = evolving['chain']
         else:
-            print(f"could not find the url{r2.status_code}")
+            print(f"could not find the url{response_2.status_code}")
             return
         namess = evolving["species"]["name"]
         evolution = evolving['evolves_to'][0]
@@ -24,7 +24,7 @@ class Evo:
         elif evolution_name == self.name:
             evolution_name = evolution['evolves_to'][0]['species']['name']
         else:
-            print(f"You can't evolve {self.name}")
+            print(f"You can't evolve what are you doing!..{self.name}")
             return
         print('.......')
         sleep(1)
@@ -41,23 +41,23 @@ class Move():
         self.move_list = []
         self.availableMoves = []
     def getMoves(self):
-        r3 = requests.get(f"https://pokeapi.co/api/v2/pokemon/{self.name}")
-        if r3.status_code == 200:
-            pokemon_moves = r3.json()
+        response_3 = requests.get(f"https://pokeapi.co/api/v2/pokemon/{self.name}")
+        if response_3.status_code == 200:
+            pokemon_moves = response_3.json()
             self.move_list = [move['move']['name']for move in pokemon_moves['moves']]
         else:
-            print(f'Ran into an issue {r3.status_code}')
+            print(f'Ran into an issue {response_3.status_code}')
             return
     def teachMoves(self):
-        r3 = requests.get(f"https://pokeapi.co/api/v2/pokemon/{self.name}")
-        if r3.status_code == 200:
-            pokemon_moves = r3.json()
+        response_3 = requests.get(f"https://pokeapi.co/api/v2/pokemon/{self.name}")
+        if response_3.status_code == 200:
+            pokemon_moves = response_3.json()
             self.move_list = [move['move']['name']for move in pokemon_moves['moves']]
             print("following moves are availabe:")
             print(self.move_list)
             newOne = input("\nWhat you want to teach to your pokemon? ")
         else:
-            print(f'again problem! {r3.status_code}')
+            print(f'again problem! {response_3.status_code}')
             return
         if len(self.availableMoves) < 4:
             if newOne in self.move_list:
@@ -83,25 +83,26 @@ class Move():
             print(f"Your {self.name} knows {self.availableMoves}")
     
     def viewMoves(self):
-        r3 = requests.get(f"https://pokeapi.co/api/v2/pokemon/{self.name}")
-        if r3.status_code == 200:
-            pokemon_moves = r3.json()
+        response_3 = requests.get(f"https://pokeapi.co/api/v2/pokemon/{self.name}")
+        if response_3.status_code == 200:
+            pokemon_moves = response_3.json()
             self.move_list = [move['move']['name']for move in pokemon_moves['moves']]
             print(self.availableMoves)
             return
         else:
-            print(f'Ran into an issue {r3.status_code}')
+            print(f'Ran into an issue {response_3.status_code}')
             return
 
     def program(self):        
         while True:
-            response = int(input("what you want to do?\n1:- teach pokemon\n2:- view your pokemon moves\n3:- quit "))
+            response = int(input("what you want to do?\n1:- teach pokemon\n2:- view your pokemon moves\n3:- quit"))
             if response == 1:
                 self.teachMoves()
             elif response == 2:
                 self.viewMoves()
             elif response == 3:
                 print(f"Thanks enjoy rest of the day")
+            
                 quit()
             else:
                 print("Invalid input, please try again!")
